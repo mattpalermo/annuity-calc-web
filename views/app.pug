@@ -1,0 +1,32 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet' type='text/css' href='/styles.css')
+    link(href="https://fonts.googleapis.com/css?family=Aref+Ruqaa|Open+Sans" rel="stylesheet")
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  body
+    h1 Annuity Calculator
+    form(action='', method='get')
+      .textual-components
+        .input-container
+          label(for='pmt') Payment Amount
+          input#pmt(name='pmt' value=pmt type='number' step='any')
+
+        .input-container
+          label(for='inf') Payment Inflation (%)
+          input#inf(name='inf' value=inf type='number' step='any')
+
+        .input-container
+          label(for='term') Number of payments
+          input#term(name='term' value=term type='number' step='any')
+
+        .input-container
+          button(type='submit') Calculate Cost
+
+        h2 Results
+        .input-container
+          | Present value of the annuity
+          output#pv(name='pv')= result
+
+      .graphic-output
