@@ -3,30 +3,48 @@ html
   head
     title= title
     link(rel='stylesheet' type='text/css' href='/styles.css')
-    link(href="https://fonts.googleapis.com/css?family=Aref+Ruqaa|Open+Sans" rel="stylesheet")
+    link(rel='stylesheet' href='https://fonts.googleapis.com/css?family=Aref+Ruqaa|Open+Sans')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.bundle.min.js')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
   body
-    h1 Annuity Calculator
-    form(action='', method='get')
-      .textual-components
-        .input-container
-          label(for='pmt') Payment Amount
+    svg(style="position: absolute; width: 0; height: 0; overflow: hidden;").
+      <defs>
+      <symbol id="icon-loop2" viewBox="0 0 32 32">
+      <title>loop2</title>
+      <path class="path1" d="M27.802 5.197c-2.925-3.194-7.13-5.197-11.803-5.197-8.837 0-16 7.163-16 16h3c0-7.18 5.82-13 13-13 3.844 0 7.298 1.669 9.678 4.322l-4.678 4.678h11v-11l-4.198 4.197z"></path>
+      <path class="path2" d="M29 16c0 7.18-5.82 13-13 13-3.844 0-7.298-1.669-9.678-4.322l4.678-4.678h-11v11l4.197-4.197c2.925 3.194 7.13 5.197 11.803 5.197 8.837 0 16-7.163 16-16h-3z"></path>
+      </symbol>
+      </defs>
+
+    header
+      h1 Annuity Calculator
+
+    form#calcform(action='', method='get')
+      .input-fields
+        .field
+          label.field-label(for='pmt') Payment Amount
           input#pmt(name='pmt' value=pmt type='number' step='any')
 
-        .input-container
-          label(for='inf') Payment Inflation (%)
+        .field
+          label.field-label(for='inf') Payment Inflation (%)
           input#inf(name='inf' value=inf type='number' step='any')
 
-        .input-container
-          label(for='term') Number of payments
+        .field
+          label.field-label(for='term') Number of payments
           input#term(name='term' value=term type='number' step='any')
 
-        .input-container
-          button(type='submit') Calculate Cost
+        .calc-container
+          button(type='submit') #[svg: use(xlink:href='#icon-loop2')] Calculate
 
-        h2 Results
-        .input-container
-          | Present value of the annuity
-          output#pv(name='pv')= result
+      .output-fields
 
-      .graphic-output
+
+        .field
+          .field-label Present value
+          output#pv(for='pmt inf term')= result
+
+      .output-graphic
+        output(for='pmt inf term')
+          canvas#outputchart
+
+    script(src='annuity-calc-web.js')

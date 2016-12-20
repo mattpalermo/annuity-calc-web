@@ -11,12 +11,14 @@ app.get('/', function(req, res){
     pmt: req.query.pmt,
     inf: req.query.inf,
     term: req.query.term,
-    result: calculatePV(req.query.pmt, req.query.inf, req.query.term)
+    result: presentValue(parseFloat(req.query.pmt),
+                         parseFloat(req.query.inf),
+                         parseFloat(req.query.term))
   });
 });
 
-function calculatePV(pmt, inf, term){
-  return pmt * (1+inf) * term
+function presentValue(pmt, inf, term){
+  return pmt * (1+inf) * term;
 }
 
 app.listen(3000);
