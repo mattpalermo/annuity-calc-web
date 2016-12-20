@@ -1,2 +1,10 @@
 # npm dependency directory
 node_modules
+
+# distribution directory
+dist
+
+# Logs
+logs
+*.log
+npm-debug.log*

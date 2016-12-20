@@ -1,10 +1,18 @@
 # annuity-calc-web
 A simple annuity calculator web app.
 
-## Install
+## Getting started
+
+### Install
 
 ```
 npm install
+```
+
+### Build
+
+```
+npm run build
 ```
 
 ## Run

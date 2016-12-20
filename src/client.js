@@ -1,3 +1,5 @@
+const annuity = require('./annuity');
+
 // Calculate present value when inputs are changed.
 var form = document.getElementById('calcform');
 var pmt = document.getElementById('pmt');
