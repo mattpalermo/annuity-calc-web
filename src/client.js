@@ -20,10 +20,6 @@ function recalc(){
   var pmtV = pmt.valueAsNumber;
   var infV = inf.valueAsNumber;
   var termV = term.valueAsNumber;
-  var pvV = presentValue(pmtV, infV, termV);
-  document.getElementById('pv').textContent = pvV;
-}
-
-function presentValue(pmt, inf, term){
-  return pmt * (1+inf) * term;
+  var pvV = annuity.presentValue(pmtV, infV, termV);
+  pv.textContent = pvV;
 }

@@ -9,14 +9,8 @@ A simple annuity calculator web app.
 npm install
 ```
 
-### Build
+### Run
 
 ```
-npm run build
-```
-
-## Run
-
-```
-node app.js
+npm start
 ```

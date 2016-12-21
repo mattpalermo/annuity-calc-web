@@ -7,9 +7,7 @@
   "scripts": {
     "start": "npm run build && npm run serve",
     "serve": "node ./src/server.js",
-    "scss": "node-sass --output-style compressed -o dist/styles src/styles",
-    "webpack": "webpack --config webpack.config.js",
-    "build": "npm run scss && npm run webpack"
+    "build": "gulp build"
   },
   "keywords": [
     "annuity",
@@ -27,7 +25,12 @@
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.18.0",
-    "node-sass": "^4.1.1",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^3.0.0",
+    "gulp-sourcemaps": "^1.9.1",
     "webpack": "^1.14.0"
   }
 }
