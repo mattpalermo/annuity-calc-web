@@ -4,13 +4,16 @@ const rename = require('gulp-rename');
 const cssnano = require('gulp-cssnano');
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
+const nodemon = require('gulp-nodemon');
+const browserSync = require('browser-sync');
 const path = require('path');
 const gutil = require("gulp-util");
 const webpack = require("webpack");
 
-gulp.task("build", ["webpack:build", "process-styles"]);
+gulp.task("build", ["clientjs:build", "styles:build"]);
+gulp.task("watch", ["styles:watch", "clientjs:watch", "serve:watch"]);
 
-gulp.task('process-styles', function(){
+gulp.task('styles:build', function(){
   return gulp.src('src/styles/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
@@ -20,7 +23,14 @@ gulp.task('process-styles', function(){
     .pipe(gulp.dest('dist/styles/'));
 });
 
-gulp.task("webpack:build", function(callback) {
+gulp.task('styles:watch', function() {
+  let watcher = gulp.watch('src/**/*.scss', ['styles:build']);
+  watcher.on('change', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', rebuilding styles...');
+  });
+});
+
+gulp.task("clientjs:build", function(callback) {
 	const config = require('./webpack.config.js');
   config.devtool = 'sourcemap';
   config.debug = true;
@@ -33,4 +43,31 @@ gulp.task("webpack:build", function(callback) {
 		}));*/
 		callback();
 	});
+});
+
+gulp.task("clientjs:watch", function() {
+  let watcher = gulp.watch('src/**/*.js', ['clientjs:build']);
+  watcher.on('change', function(event) {
+    console.log('File ' + event.path + ' was ' + event.type + ', rebuilding client js...');
+  });
+});
+
+gulp.task('serve:watch', ['nodemon'], function() {
+  browserSync.init(null, {
+    proxy: "http://localhost:3000",
+    files: ["src/**/*.*"],
+    port: 5000
+  });
+});
+
+gulp.task('nodemon', function(cb) {
+  let started = false;
+  return nodemon({
+    script: 'src/server.js'
+  }).on('start', function(){
+    if (!started) {
+      cb();
+      started = true;
+    }
+  });
 });
