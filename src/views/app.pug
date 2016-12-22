@@ -19,27 +19,27 @@ html
       h1 Annuity Calculator
 
     form#calcform(action='', method='get')
-      .input-fields
+      .inputs
         .field
-          label.field-label(for='pmt') Payment Amount
+          label(for='pmt') Payment Amount
           input#pmt(name='pmt' value=pmt type='number' step='any')
 
         .field
-          label.field-label(for='inf') Payment Inflation (%)
+          label(for='inf') Payment Inflation (%)
           input#inf(name='inf' value=inf type='number' step='any')
 
         .field
-          label.field-label(for='term') Number of payments
+          label(for='term') Number of payments
           input#term(name='term' value=term type='number' step='any')
 
-        .calc-container
+        .button-container
           button(type='submit') #[svg: use(xlink:href='#icon-loop2')] Calculate
 
-      .output-fields
+      .output-text
 
 
         .field
-          .field-label Present value
+          label(for='pv') Present value
           output#pv(for='pmt inf term')= result
 
       .output-graphic
