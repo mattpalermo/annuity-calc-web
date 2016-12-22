@@ -16,37 +16,14 @@ gulp.task('process-styles', function(){
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(cssnano())
-    .pipe(rename({suffix: '.min'}))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/styles/'));
 });
 
 gulp.task("webpack:build", function(callback) {
-	const config = {
-    entry: './src/client',
-    output: {
-      path: path.resolve(__dirname, 'dist', 'scripts'),
-      filename: 'annuity-calc.min.js'
-    },
-    devtool: "sourcemap",
-    debug: true,
-    modules: {
-      loaders: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader',
-          query: {
-            presets: ['es2015']
-          }
-        }
-      ]
-    },
-    plugins: [
-      new webpack.optimize.DedupePlugin(),
-      new webpack.optimize.UglifyJsPlugin()
-    ]
-  };
+	const config = require('./webpack.config.js');
+  config.devtool = 'sourcemap';
+  config.debug = true;
 
 	// run webpack
 	webpack(config, function(err, stats) {
