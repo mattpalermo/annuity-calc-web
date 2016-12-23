@@ -5,9 +5,10 @@ var app = express();
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, '../dist')));
+//app.use(express.static(path.join(__dirname, '../dist')));
 
 app.get('/', function(req, res){
+  //hello
   res.render('app', {
     pmt: req.query.pmt,
     inf: req.query.inf,
@@ -18,5 +19,4 @@ app.get('/', function(req, res){
   });
 });
 
-app.listen(3000);
-console.log('Listening on port 3000');
+module.exports = app;

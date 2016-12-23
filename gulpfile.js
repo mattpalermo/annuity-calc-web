@@ -5,15 +5,43 @@ const cssnano = require('gulp-cssnano');
 const autoprefixer = require('gulp-autoprefixer');
 const sourcemaps = require('gulp-sourcemaps');
 const nodemon = require('gulp-nodemon');
-const browserSync = require('browser-sync');
-const path = require('path');
-const gutil = require("gulp-util");
+const browserSync = require('browser-sync').create();
 const webpack = require("webpack");
+const del = require('del');
+const fork = require('child_process').fork;
 
-gulp.task("build", ["clientjs:build", "styles:build"]);
-gulp.task("watch", ["styles:watch", "clientjs:watch", "serve:watch"]);
+let paths = {
+  scripts: 'src/**/*.js',
+  styles: 'src/styles/**/*.scss',
+  static: 'dist',
+};
 
-gulp.task('styles:build', function(){
+// modules
+let modpaths = {
+  server: './src/server',
+  servescript: './bin/serve'
+};
+
+gulp.task('build', ['build:styles', 'build:clientjs']);
+gulp.task('clean', function() {
+  return del(['dist']);
+});
+gulp.task('serve', serve);
+function serve(done){
+  fork(modpaths.servescript, [], {
+    stdio: [0, 1, 2, 'ipc']
+  }).on('exit', function(){
+    done();
+  });
+}
+gulp.task('watch', [
+  'watch:browser',
+  'watch:serve',
+  'watch:styles',
+  'watch:clientjs'
+]);
+
+gulp.task('build:styles', function(){
   return gulp.src('src/styles/*.scss')
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
@@ -22,52 +50,32 @@ gulp.task('styles:build', function(){
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('dist/styles/'));
 });
-
-gulp.task('styles:watch', function() {
-  let watcher = gulp.watch('src/**/*.scss', ['styles:build']);
-  watcher.on('change', function(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', rebuilding styles...');
-  });
-});
-
-gulp.task("clientjs:build", function(callback) {
+gulp.task("build:clientjs", function(callback) {
 	const config = require('./webpack.config.js');
   config.devtool = 'sourcemap';
   config.debug = true;
-
-	// run webpack
-	webpack(config, function(err, stats) {
-		if(err) throw new gutil.PluginError("webpack:build", err);
-		/*gutil.log("[webpack:build]", stats.toString({
-			colors: true
-		}));*/
-		callback();
-	});
+	webpack(config);
 });
 
-gulp.task("clientjs:watch", function() {
-  let watcher = gulp.watch('src/**/*.js', ['clientjs:build']);
-  watcher.on('change', function(event) {
-    console.log('File ' + event.path + ' was ' + event.type + ', rebuilding client js...');
+gulp.task('watch:browser', function(){
+  browserSync.init({
+    // Perhaps the port should be derived from something?
+    proxy: "http://localhost:4000",
+    files: paths.static,
+    ghostMode: false
   });
 });
-
-gulp.task('serve:watch', ['nodemon'], function() {
-  browserSync.init(null, {
-    proxy: "http://localhost:3000",
-    files: ["src/**/*.*"],
-    port: 5000
-  });
-});
-
-gulp.task('nodemon', function(cb) {
-  let started = false;
+gulp.task('watch:serve', function(){
   return nodemon({
-    script: 'src/server.js'
+    script: modpaths.servescript,
+    watch: paths.scripts
   }).on('start', function(){
-    if (!started) {
-      cb();
-      started = true;
-    }
+    browserSync.reload();
   });
+});
+gulp.task('watch:styles', ['build:styles'], function(){
+  gulp.watch(paths.styles, ['build:styles']);
+});
+gulp.task('watch:clientjs', ['build:clientjs'], function(){
+  gulp.watch(paths.scripts, ['build:clientjs']);
 });
