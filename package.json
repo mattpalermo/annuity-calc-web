@@ -5,9 +5,15 @@
   "private": true,
   "main": "src/server.js",
   "scripts": {
-    "start": "npm run build && npm run serve",
-    "serve": "node ./src/server.js",
-    "build": "gulp build"
+    "start": "gulp watch",
+		"watch": "gulp watch",
+		"build": "gulp build",
+		"clean": "gulp clean",
+		"serve": "gulp serve",
+		"lint": "npm run lint:scripts && npm run lint:styles && npm run lint:pug",
+		"lint:scripts": "eslint .",
+		"lint:styles": "stylelint src/styles/*",
+		"lint:pug": "pug-lint -c pug-lintrc.js src/views/app.pug"
   },
   "keywords": [
     "annuity",
