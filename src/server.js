@@ -7,7 +7,6 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', function(req, res){
-  //hello
   res.render('app', {
     pmt: req.query.pmt,
     inf: req.query.inf,
