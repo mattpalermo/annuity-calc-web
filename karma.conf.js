@@ -1,5 +1,4 @@
 // Karma configuration
-// Generated on Thu Dec 29 2016 01:23:41 GMT+1000 (E. Australia Standard Time)
 const webpack = require('webpack');
 const webpackconfig = require('./webpack.config.js');
 

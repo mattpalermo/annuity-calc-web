@@ -7,8 +7,10 @@ const sourcemaps = require('gulp-sourcemaps');
 const nodemon = require('gulp-nodemon');
 const browserSync = require('browser-sync').create();
 const webpack = require("webpack");
+const webpackconfig = require("./webpack.config");
 const del = require('del');
 const fork = require('child_process').fork;
+const gutil = require('gulp-util');
 
 let paths = {
   scripts: 'src/**/*.js',
@@ -19,21 +21,21 @@ let paths = {
 // modules
 let modpaths = {
   server: './src/server',
-  servescript: './bin/serve'
+  servescript: './scripts/serve'
 };
 
 gulp.task('build', ['build:styles', 'build:clientjs']);
 gulp.task('clean', function() {
   return del(['dist']);
 });
-gulp.task('serve', serve);
-function serve(done){
+gulp.task('serve', function(done) {
   fork(modpaths.servescript, [], {
     stdio: [0, 1, 2, 'ipc']
-  }).on('exit', function(){
+  })
+	.on('exit', function(){
     done();
   });
-}
+});
 gulp.task('watch', [
   'watch:browser',
   'watch:serve',
@@ -51,10 +53,16 @@ gulp.task('build:styles', function(){
     .pipe(gulp.dest('dist/styles/'));
 });
 gulp.task("build:clientjs", function(callback) {
-	const config = require('./webpack.config.js');
+	const config = webpackconfig;
   config.devtool = 'sourcemap';
   config.debug = true;
-	webpack(config);
+	webpack(config, function(err, stats) {
+        if(err) throw new gutil.PluginError("webpack", err);
+        /*gutil.log("[webpack]", stats.toString({
+            // output options
+        }));*/
+        callback();
+    });
 });
 
 gulp.task('watch:browser', function(){
