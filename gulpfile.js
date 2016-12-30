@@ -26,7 +26,7 @@ gulp.task("watch", [
 	"watch:clientjs"
 ]);
 
-gulp.task("build:styles", function(){
+gulp.task("build:styles", function() {
 	var processors = [
 		cssnext(),
 		cssnano({ autoprefixer: false }),
@@ -34,9 +34,9 @@ gulp.task("build:styles", function(){
 	return gulp.src("./src/styles.css")
 		.pipe(rename("annuity-calc.css"))
 		.pipe(sourcemaps.init())
-    .pipe(postcss(processors))
-    .pipe(sourcemaps.write("."))
-    .pipe(gulp.dest("./dist"));
+		.pipe(postcss(processors))
+		.pipe(sourcemaps.write("."))
+		.pipe(gulp.dest("./dist"));
 });
 
 gulp.task("build:clientjs", function(callback) {
@@ -46,7 +46,7 @@ gulp.task("build:clientjs", function(callback) {
 	});
 });
 
-gulp.task("build:staticapp", function(cb){
+gulp.task("build:staticapp", function(cb) {
 	fs.mkdir("./dist", function() {
 		// ignore err due to file already existing
 		fs.writeFile(
@@ -62,7 +62,7 @@ gulp.task("build:staticapp", function(cb){
 
 });
 
-gulp.task("watch:browser", function(){
+gulp.task("watch:browser", function() {
 	browserSync.init({
 		proxy: "http://localhost:4000",
 		files: "./dist",
@@ -70,7 +70,7 @@ gulp.task("watch:browser", function(){
 	});
 });
 
-gulp.task("watch:serve", function(){
+gulp.task("watch:serve", function() {
 	return nodemon({
 		script: "./bin/www --port 4000 --log dev",
 		watch: "./src/*" // Doesn't exclude client only code (not a big deal)
@@ -79,10 +79,10 @@ gulp.task("watch:serve", function(){
 	});
 });
 
-gulp.task("watch:styles", ["build:styles"], function(){
+gulp.task("watch:styles", ["build:styles"], function() {
 	gulp.watch("./src/styles.scss", ["build:styles"]);
 });
 
-gulp.task("watch:clientjs", ["build:clientjs"], function(){
+gulp.task("watch:clientjs", ["build:clientjs"], function() {
 	gulp.watch("./src/client-app.js", ["build:clientjs"]);
 });
