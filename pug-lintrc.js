@@ -13,8 +13,8 @@ module.exports = {
 	requireLowerCaseAttributes: true,
 	requireLowerCaseTags: true,
 	requireSpecificAttributes: [
-		{img: 'alt'},
-		{input: 'type'},
+		{img: "alt"},
+		{input: "type"},
 	],
 	validateAttributeQuoteMarks: true,
 	validateAttributeSeparator: {"separator": " ", "multiLineSeparator": "\n "},
