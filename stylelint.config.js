@@ -11,6 +11,7 @@ module.exports = {
 		"selector-no-vendor-prefix": true,
 		"value-no-vendor-prefix": true,
 		"no-browser-hacks": true,
-		"no-unsupported-browser-features": true
+		//"custom-property-empty-line-before": false, // I wish this worked
+		//"comment-empty-line-before": false
 	}
 };

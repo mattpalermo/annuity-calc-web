@@ -1,8 +1,8 @@
 const gulp = require("gulp");
-const sass = require("gulp-sass");
 const rename = require("gulp-rename");
-const cssnano = require("gulp-cssnano");
-const autoprefixer = require("gulp-autoprefixer");
+const cssnano = require("cssnano");
+const cssnext = require('postcss-cssnext');
+const postcss = require('gulp-postcss');
 const sourcemaps = require("gulp-sourcemaps");
 const nodemon = require("gulp-nodemon");
 const browserSync = require("browser-sync").create();
@@ -27,12 +27,14 @@ gulp.task("watch", [
 ]);
 
 gulp.task("build:styles", function(){
-	return gulp.src("./src/styles.scss")
-		.pipe(rename("annuity-calc.scss"))
+	var processors = [
+		cssnext(),
+		cssnano({ autoprefixer: false }),
+	];
+	return gulp.src("./src/styles.css")
+		.pipe(rename("annuity-calc.css"))
 		.pipe(sourcemaps.init())
-    .pipe(sass().on("error", sass.logError))
-    .pipe(autoprefixer())
-    .pipe(cssnano())
+    .pipe(postcss(processors))
     .pipe(sourcemaps.write("."))
     .pipe(gulp.dest("./dist"));
 });
