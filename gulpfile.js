@@ -74,8 +74,8 @@ gulp.task("watch:serve", function() {
 	return nodemon({
 		script: "./bin/www",
 		watch: "./src", // Doesn't exclude client only code (not a big deal)
-		args: ['--port', '4000', '--log', 'dev'],
-		ext: 'js,pug'
+		args: ["--port", "4000", "--log", "dev"],
+		ext: "js,pug"
 	}).on("start", function() {
 		browserSync.reload();
 	});
