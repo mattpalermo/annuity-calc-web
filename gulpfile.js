@@ -9,33 +9,16 @@ const browserSync = require('browser-sync').create();
 const webpack = require("webpack");
 const webpackconfig = require("./webpack.config");
 const del = require('del');
-const fork = require('child_process').fork;
 const gutil = require('gulp-util');
+const pug = require('pug');
+const fs = require('fs');
 
-let paths = {
-  scripts: 'src/**/*.js',
-  styles: 'src/styles/**/*.scss',
-  static: 'dist',
-};
+gulp.task('build', ['build:styles', 'build:clientjs', 'build:staticapp']);
 
-// modules
-let modpaths = {
-  server: './src/server',
-  servescript: './scripts/serve'
-};
-
-gulp.task('build', ['build:styles', 'build:clientjs']);
 gulp.task('clean', function() {
-  return del(['dist']);
+  return del(['./dist']);
 });
-gulp.task('serve', function(done) {
-  fork(modpaths.servescript, [], {
-    stdio: [0, 1, 2, 'ipc']
-  })
-	.on('exit', function(){
-    done();
-  });
-});
+
 gulp.task('watch', [
   'watch:browser',
   'watch:serve',
@@ -44,46 +27,60 @@ gulp.task('watch', [
 ]);
 
 gulp.task('build:styles', function(){
-  return gulp.src('src/styles/*.scss')
-    .pipe(sourcemaps.init())
+  return gulp.src('./src/styles.scss')
+		.pipe(rename('annuity-calc.scss'))
+		.pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(cssnano())
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest('dist/styles/'));
+    .pipe(gulp.dest('./dist'));
 });
+
 gulp.task("build:clientjs", function(callback) {
-	const config = webpackconfig;
-  config.devtool = 'sourcemap';
-  config.debug = true;
-	webpack(config, function(err, stats) {
-        if(err) throw new gutil.PluginError("webpack", err);
-        /*gutil.log("[webpack]", stats.toString({
-            // output options
-        }));*/
-        callback();
-    });
+	webpack(webpackconfig, function(err, stats) {
+		if(err) throw new gutil.PluginError("webpack", err);
+		callback();
+  });
 });
+
+gulp.task("build:staticapp", function(cb){
+	fs.mkdir('./dist', function(ignerr) {
+		// ignore err due to file already existing
+		fs.writeFile(
+			'./dist/annuity-calc.html',
+			// TODO: disable calculate button form submition
+			pug.renderFile('./src/view.pug', {compileDebug: false}),
+			function(err) {
+				if (err) throw err;
+				cb();
+			}
+		);
+	});
+
+})
 
 gulp.task('watch:browser', function(){
   browserSync.init({
-    // Perhaps the port should be derived from something?
-    proxy: "http://localhost:4000",
-    files: paths.static,
-    ghostMode: false
+    proxy: 'http://localhost:4000',
+    files: './dist',
+    ghostMode: false // Turn off sync between connected browsers
   });
 });
+
 gulp.task('watch:serve', function(){
   return nodemon({
-    script: modpaths.servescript,
-    watch: paths.scripts
+    script: './bin/www --port 4000 --log dev',
+    watch: './src/*' // Doesn't exclude client only code (not a big deal)
   }).on('start', function(){
     browserSync.reload();
   });
 });
+
 gulp.task('watch:styles', ['build:styles'], function(){
   gulp.watch(paths.styles, ['build:styles']);
 });
+
 gulp.task('watch:clientjs', ['build:clientjs'], function(){
   gulp.watch(paths.scripts, ['build:clientjs']);
 });

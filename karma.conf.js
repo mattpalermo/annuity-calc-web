@@ -12,7 +12,7 @@ module.exports = function(config) {
     frameworks: ['mocha'],
 
     // list of files / patterns to load in the browser
-    files: ['src/**/*.spec.js'],
+    files: ['./src/**/*.spec.js', './test/**/*.js'],
 
     // list of files to exclude
     exclude: [],
@@ -20,14 +20,16 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-			'src/**/*.spec.js': ['webpack']
+			'src/**/*.spec.js': ['webpack'],
+			'./test/**/*.js': ['webpack']
     },
 
 		webpack: webpackconfig,
 
 		webpackMiddleware: {
 			// webpack-dev-middleware configuration
-			noInfo: true
+			noInfo: true,
+			stats: 'errors-only'
 		},
 
 		plugins: [

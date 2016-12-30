@@ -3,19 +3,21 @@
   "version": "0.0.0",
   "description": "Simple annuity calculator web app",
   "private": true,
-  "main": "src/server.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "gulp watch",
+    "start": "node bin/www",
+    "prepublish": "npm run prepare",
+    "prepare": "npm run build",
     "watch": "gulp watch",
     "build": "gulp build",
     "clean": "gulp clean",
-    "serve": "gulp serve",
-    "test-node": "mocha src/**/*.spec.js",
-    "test-browser": "karma start scripts/karma.config.js",
+    "test": "npm run test-node && npm run test-browser",
+    "test-node": "mocha ./src/**/*.spec.js ./test/*.js",
+    "test-browser": "karma start ./karma.conf.js --single-run",
     "lint": "npm run lint:scripts && npm run lint:styles && npm run lint:pug",
     "lint:scripts": "eslint .",
-    "lint:styles": "stylelint src/styles/*",
-    "lint:pug": "pug-lint -c pug-lintrc.js src/views/app.pug"
+    "lint:styles": "stylelint src/**/*.scss",
+    "lint:pug": "pug-lint -c pug-lintrc.js src/**/*.pug"
   },
   "keywords": [
     "annuity",
@@ -26,6 +28,7 @@
   "author": "Matthew Palermo",
   "license": "ISC",
   "dependencies": {
+    "dashdash": "^1.14.1",
     "express": "^4.14.0",
     "morgan": "^1.7.0",
     "pug": "^2.0.0-beta6"
@@ -42,7 +45,6 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-cssnano": "^2.1.2",
     "gulp-nodemon": "^2.2.1",
-    "gulp-notify": "^2.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.0.0",
     "gulp-sourcemaps": "^1.9.1",

@@ -1,0 +1,153 @@
+#!/usr/bin/env node
+
+const app = require('../');
+const http = require('http');
+const express = require('express');
+const logger = require('morgan');
+const debug = require('debug')('annuity-calc-web');
+const path = require('path');
+const dashdash = require('dashdash');
+
+/*
+## Parse command line arguments and environment variables ##
+*/
+
+const options = [
+	{
+		names: ['help', 'h'],
+		type: 'bool',
+		help: 'Print this help and exit.'
+	},
+	{
+		names: ['port', 'p'],
+		type: 'string',
+		env: 'PORT',
+		help: 'Port or named piped to listen on.',
+		helpArg: 'PORT',
+		default: '4000'
+	},
+	{
+		names: ['log', 'l'],
+		type: 'string',
+		env: 'MORGAN_LOGLEVEL',
+		help: `Log level for morgan logger.
+Options: combined, common, dev, short, tiny.`,
+		helpArg: 'LEVEL',
+		default: 'common'
+	},
+	{
+		names: ['static', 's'],
+		type: 'bool',
+		env: 'SERVE_STATIC',
+		help: 'Serve static content in static-dir.',
+		default: true
+	},
+	{
+		name: 'static-dir',
+		type: 'string',
+		env: 'SERVE_STATIC_DIR',
+		completionType: 'file',
+		help: `Directory to statically serve at '/'.`,
+		helpArg: 'DIR',
+		default: path.join(__dirname, '../dist')
+	}
+]
+
+// TODO: Errors currently just fall through. Should they be handled?
+var parser = dashdash.createParser({options: options});
+var opts = parser.parse(process.argv);
+var port = normalizePort(opts.port);
+var staticdir = path.normalize(opts.static_dir);
+
+if (opts.help) {
+    var help = parser.help({
+			includeEnv: true,
+			includeDefault: true,
+			indent: 2
+		});
+    console.log('Usage: node foo.js [OPTIONS]\n\n'
+                + 'Options:\n'
+                + help);
+    process.exit(0);
+}
+
+/*
+## Set up host app ##
+*/
+
+var hostapp = express();
+debug('Using morgan log style: ' + opts.log); // TODO: Use bunyan.
+hostapp.use(logger(opts.log));
+if (opts.static) {
+	debug('Serving static content from: ' + staticdir);
+	hostapp.use(express.static(staticdir));
+}
+hostapp.use(app);
+
+/*
+## Launch server ##
+*/
+
+var server = http.createServer(hostapp);
+server.on('listening', onListening);
+server.on('error', onError);
+server.listen(port);
+
+/*
+## Less interesting stuff ##
+*/
+
+// Normalize a port into a port number or named pipe string.
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+  if (port >= 0) {
+    // port number
+    return port;
+  } else {
+		throw new Error('Port number cannot be less than 0');
+	}
+}
+
+// Event listener for HTTP server "listening" event.
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  console.log('Listening on ' + bind);
+}
+
+// Event listener for HTTP server "error" event.
+function onError(error) {
+  if (error.syscall !== 'listen') {
+		throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+// TODO: if this is required then we probably don't want to do the cmd line
+//       args processing.
+//exports.server = server;
+//exports.app = hostapp;
