@@ -11,7 +11,7 @@
 	--headingFontFamily: 'Aref Ruqaa', serif;
 	--formInputPadding: 0.4em;
 	--formInputBorderWidth: 0.1em;
-	--commonMargin: 0.5em;
+	--commonMargin: 0.6em;
 }
 
 /* # Stylin' */
@@ -112,7 +112,7 @@ form {
 
 /* # General element theming */
 
-& input {
+input {
 	padding: var(--formInputPadding);
 	border-width: var(--formInputBorderWidth);
 	box-sizing: border-box;

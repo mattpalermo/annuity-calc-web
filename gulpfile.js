@@ -72,17 +72,19 @@ gulp.task("watch:browser", function() {
 
 gulp.task("watch:serve", function() {
 	return nodemon({
-		script: "./bin/www --port 4000 --log dev",
-		watch: "./src/*" // Doesn't exclude client only code (not a big deal)
+		script: "./bin/www",
+		watch: "./src", // Doesn't exclude client only code (not a big deal)
+		args: ['--port', '4000', '--log', 'dev'],
+		ext: 'js,pug'
 	}).on("start", function() {
 		browserSync.reload();
 	});
 });
 
 gulp.task("watch:styles", ["build:styles"], function() {
-	gulp.watch("./src/styles.scss", ["build:styles"]);
+	gulp.watch("./src/styles.css", ["build:styles"]);
 });
 
 gulp.task("watch:clientjs", ["build:clientjs"], function() {
-	gulp.watch("./src/client-app.js", ["build:clientjs"]);
+	gulp.watch("./src/**/*.js", ["build:clientjs"]);
 });
