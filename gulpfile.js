@@ -1,8 +1,8 @@
 const gulp = require("gulp");
 const rename = require("gulp-rename");
 const cssnano = require("cssnano");
-const cssnext = require('postcss-cssnext');
-const postcss = require('gulp-postcss');
+const cssnext = require("postcss-cssnext");
+const postcss = require("gulp-postcss");
 const sourcemaps = require("gulp-sourcemaps");
 const nodemon = require("gulp-nodemon");
 const browserSync = require("browser-sync").create();
@@ -41,7 +41,7 @@ gulp.task("build:styles", function() {
 
 gulp.task("build:clientjs", function(callback) {
 	webpack(webpackconfig, function(err) {
-		if(err) throw new gutil.PluginError("webpack", err);
+		if (err) throw new gutil.PluginError("webpack", err);
 		callback();
 	});
 });
@@ -74,7 +74,7 @@ gulp.task("watch:serve", function() {
 	return nodemon({
 		script: "./bin/www --port 4000 --log dev",
 		watch: "./src/*" // Doesn't exclude client only code (not a big deal)
-	}).on("start", function(){
+	}).on("start", function() {
 		browserSync.reload();
 	});
 });

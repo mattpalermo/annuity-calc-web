@@ -15,7 +15,7 @@
 		"test-node": "mocha ./src/**/*.spec.js ./test/*.js",
 		"test-browser": "karma start ./karma.conf.js --single-run",
 		"lint": "npm run lint:scripts && npm run lint:styles && npm run lint:pug",
-		"lint:scripts": "eslint .",
+		"lint:scripts": "eslint ./*.js ./src/**/*.js",
 		"lint:styles": "stylelint src/**/*.css",
 		"lint:doiuse": "stylelint --config stylelint-doiuse.config.js src/**/*.css",
 		"lint:pug": "pug-lint -c pug-lintrc.js src/view.pug"
