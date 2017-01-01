@@ -1,13 +1,14 @@
-const annuity = require("./annuity");
+const ctrl = require("./controller");
 
 // Calculate present value when inputs are changed.
 var form = document.getElementById("calcform");
-var pmt = document.getElementById("pmt");
-var inf = document.getElementById("inf");
-var term = document.getElementById("term");
-var pv = document.getElementById("pv");
+var elPmt = document.getElementById("pmt");
+var elInf = document.getElementById("inf");
+var elGrowth = document.getElementById("growth");
+var elTerm = document.getElementById("term");
+var elPv = document.getElementById("pv");
 
-[pmt, inf, term].forEach(function(itm) {
+[elPmt, elInf, elTerm, elGrowth].forEach(function(itm) {
 	itm.addEventListener("input", inputsChanged);
 	itm.addEventListener("change", inputsChanged);
 });
@@ -17,9 +18,8 @@ function inputsChanged() {
 }
 
 function recalc() {
-	var pmtV = pmt.valueAsNumber;
-	var infV = inf.valueAsNumber;
-	var termV = term.valueAsNumber;
-	var pvV = annuity.presentValue(pmtV, infV, termV);
-	pv.textContent = pvV;
+	var calcinfo;
+	calcinfo = ctrl.calc(elGrowth.value, elPmt.value, elTerm.value,
+		elInf.value);
+	elPv.textContent = calcinfo.out.result;
 }

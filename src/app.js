@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const pug = require("pug");
-const annuity = require("./annuity");
+const ctrl = require("./controller");
 
 const app = express();
 const view = pug.compileFile(
@@ -9,15 +9,19 @@ const view = pug.compileFile(
 );
 
 app.get("/", function(req, res) {
-	var pmt = parseFloat(req.query.pmt);
-	var inf = parseFloat(req.query.inf);
-	var term = parseFloat(req.query.term);
-	var result = annuity.presentValue(pmt, inf, term);
+	var pmt = req.query.pmt;
+	var term = req.query.term;
+	var growth = req.query.growth;
+	var inf = req.query.inf;
+
+	var calcinfo = ctrl.calc(growth, pmt, term, inf);
+
 	res.send(view({
-		pmt: pmt,
-		inf: inf,
-		term: term,
-		result: result
+		pmt: calcinfo.out.pmt,
+		term: calcinfo.out.term,
+		growth: calcinfo.out.growth,
+		inf: calcinfo.out.inf,
+		result: calcinfo.out.result
 	}));
 });
 

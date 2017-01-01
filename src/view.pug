@@ -23,12 +23,16 @@ html
 					input#pmt(name='pmt' value=pmt type='number' step='any')
 
 				.field
-					label(for='inf') Payment Inflation (%)
-					input#inf(name='inf' value=inf type='number' step='any')
-
-				.field
 					label(for='term') Number of payments
 					input#term(name='term' value=term type='number' step='any')
+
+				.field
+					label(for='growth') Growth rate (%)
+					input#growth(name='growth' value=growth type='number' step='any')
+
+				.field
+					label(for='inf') Payment Inflation (%)
+					input#inf(name='inf' value=inf type='number' step='any')
 
 				.button-container
 					button(type='submit') #[svg: use(xlink:href='#icon-loop2')] Calculate
