@@ -1,18 +1,20 @@
+"use strict";
+
 const ctrl = require("./controller");
 //const Chart = require("chart.js");
 /* global Chart */
 
 // Calculate present value when inputs are changed.
-var form = document.getElementById("calcform");
-var elPmt = document.getElementById("pmt");
-var elInf = document.getElementById("inf");
-var elGrowth = document.getElementById("growth");
-var elTerm = document.getElementById("term");
-var elPv = document.getElementById("pv");
+let form = document.getElementById("calcform");
+let elPmt = document.getElementById("pmt");
+let elInf = document.getElementById("inf");
+let elGrowth = document.getElementById("growth");
+let elTerm = document.getElementById("term");
+let elPv = document.getElementById("pv");
 
-var elChart = document.getElementById("outputchart");
+let elChart = document.getElementById("outputchart");
 
-var scatterChart = new Chart(elChart, {
+let scatterChart = new Chart(elChart, {
 	type: "line",
 	data: {
 		datasets: [{
@@ -77,7 +79,7 @@ function inputsChanged() {
 recalc();
 
 function recalc() {
-	var calcinfo;
+	let calcinfo;
 	calcinfo = ctrl.calc({
 		growth: elGrowth.value,
 		pmt: elPmt.value,
@@ -86,7 +88,7 @@ function recalc() {
 	});
 	elPv.textContent = calcinfo.out.result;
 
-	var graphinfo = ctrl.plot(calcinfo);
+	let graphinfo = ctrl.plot(calcinfo);
 	scatterChart.data.datasets[0].data = graphinfo.valdata;
 	scatterChart.data.datasets[1].data = graphinfo.pmtdata;
 	scatterChart.options.scales.xAxes[0].ticks.min = graphinfo.xaxis.min;

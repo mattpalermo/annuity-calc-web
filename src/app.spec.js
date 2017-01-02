@@ -1,3 +1,5 @@
+"use strict";
+
 /* eslint-env mocha */
 /* eslint no-unused-vars: ["error", { "varsIgnorePattern": "should" }]*/
 const should = require("chai").should();

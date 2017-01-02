@@ -1,3 +1,5 @@
+"use strict";
+
 // TODO: Document the domains in which this method of evaluation yeilds
 //       significant error.
 
@@ -21,15 +23,15 @@ function value_graduated(p) {
 		});
 	}
 
-	var gdash = (1 + p.growth) / (1 + p.inf) - 1;
-	var j = p.time - p.initValCond.time;
-	var pmtAtK = pmt_value({
+	let gdash = (1 + p.growth) / (1 + p.inf) - 1;
+	let j = p.time - p.initValCond.time;
+	let pmtAtK = pmt_value({
 		initPmtCond: p.initPmtCond,
 		inf: p.inf,
 		time: p.initValCond.time
 	});
 
-	var p_simple = {
+	let p_simple = {
 		growth: gdash,
 		pmt: pmtAtK,
 		initValCond: p.initValCond,
@@ -60,7 +62,7 @@ function value_simple(p) {
 		return p.initValCond.val - p.pmt * (p.time - p.initValCond.time);
 	}
 
-	var pmtCap = p.pmt / p.growth;
+	let pmtCap = p.pmt / p.growth;
 	return (Math.pow(1 + p.growth, p.time - p.initValCond.time) *
 		(p.initValCond.val - pmtCap)) + pmtCap;
 }

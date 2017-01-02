@@ -1,3 +1,5 @@
+"use strict";
+
 const express = require("express");
 const path = require("path");
 const pug = require("pug");
@@ -9,12 +11,12 @@ const view = pug.compileFile(
 );
 
 app.get("/", function(req, res) {
-	var pmt = req.query.pmt;
-	var term = req.query.term;
-	var growth = req.query.growth;
-	var inf = req.query.inf;
+	let pmt = req.query.pmt;
+	let term = req.query.term;
+	let growth = req.query.growth;
+	let inf = req.query.inf;
 
-	var calcinfo = ctrl.calc({
+	let calcinfo = ctrl.calc({
 		growth: growth,
 		pmt: pmt,
 		term: term,

@@ -1,3 +1,5 @@
+"use strict";
+
 const gulp = require("gulp");
 const rename = require("gulp-rename");
 const cssnano = require("cssnano");
@@ -27,7 +29,7 @@ gulp.task("watch", [
 ]);
 
 gulp.task("build:styles", function() {
-	var processors = [
+	let processors = [
 		cssnext(),
 		cssnano({ autoprefixer: false }),
 	];

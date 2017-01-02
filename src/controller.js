@@ -1,3 +1,5 @@
+"use strict";
+
 // TODO: Try to seperate out the concern of converting the percentages into
 //       ratios. At the moment it is done seperately in both calc() and
 //       plot().
@@ -12,10 +14,10 @@ const annuity = require("./annuity");
 //   invalid: Was the input string invalid in some way? perhaps unable to be interpretted?
 //   output: The text that should be put back into the text field.
 function calc(p) {
-	var val = {};
-	var empty = {};
-	var invalid = {};
-	var out = {}; // text to be put back into the view.
+	let val = {};
+	let empty = {};
+	let invalid = {};
+	let out = {}; // text to be put back into the view.
 
 	empty.growth = isEmpty(p.growth);
 	empty.pmt = isEmpty(p.pmt);
@@ -46,7 +48,7 @@ function calc(p) {
 		val.result = NaN;
 		out.result = "";
 	} else {
-		var calc_params = {
+		let calc_params = {
 			growth: val.growth * 0.01,
 			inf: val.inf * 0.01,
 			initPmtCond: {pmt: val.pmt, time: 0},
@@ -81,20 +83,20 @@ function plot(calcinfo) {
 		}
 	};
 
-	var params = {
+	let params = {
 		growth: calcinfo.val.growth * 0.01,
 		inf: calcinfo.val.inf * 0.01,
 		initPmtCond: {pmt: calcinfo.val.pmt, time: 0},
 		initValCond: {val: 0, time: calcinfo.val.term},
 		//time: val.term
 	};
-	var valdata = [{
+	let valdata = [{
 		x: 0,
 		y: calcinfo.val.result
 	}];
-	var pmtdata = [];
+	let pmtdata = [];
 
-	for (var i = 1; i <= calcinfo.val.term; i++) {
+	for (let i = 1; i <= calcinfo.val.term; i++) {
 		params.time = i;
 		valdata.push({
 			x: i,

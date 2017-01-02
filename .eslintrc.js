@@ -14,6 +14,8 @@ module.exports = {
 		"brace-style": ["error", "1tbs", {"allowSingleLine": true}],
 		"keyword-spacing": ["error", {"before": true, "after": true}],
 		"func-call-spacing": ["error", "never"],
-		"space-before-blocks": ["error", "always"]
+		"space-before-blocks": ["error", "always"],
+		"strict": ["error", "global"],
+		"no-var": ["error"]
 	}
 };
