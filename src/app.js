@@ -14,7 +14,12 @@ app.get("/", function(req, res) {
 	var growth = req.query.growth;
 	var inf = req.query.inf;
 
-	var calcinfo = ctrl.calc(growth, pmt, term, inf);
+	var calcinfo = ctrl.calc({
+		growth: growth,
+		pmt: pmt,
+		term: term,
+		inf: inf
+	});
 
 	res.send(view({
 		pmt: calcinfo.out.pmt,
