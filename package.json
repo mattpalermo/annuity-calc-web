@@ -20,6 +20,9 @@
 		"lint:doiuse": "stylelint --config stylelint-doiuse.config.js src/**/*.css",
 		"lint:pug": "pug-lint -c pug-lintrc.js src/view.pug"
 	},
+	"bin": {
+		"annuity-calc-www": "bin/www"
+	},
 	"keywords": [
 		"annuity",
 		"calculator",

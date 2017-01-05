@@ -1,9 +1,6 @@
 # npm dependency directory
 node_modules
 
-# distribution directory
-dist
-
 # npm distribution package(s)
 *.tgz
 
