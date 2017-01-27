@@ -1,6 +1,6 @@
 {
 	"name": "annuity-calc-web",
-	"version": "0.0.0",
+	"version": "0.1.0",
 	"description": "Simple annuity calculator web app",
 	"private": true,
 	"main": "src/app.js",

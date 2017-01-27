@@ -35,3 +35,9 @@ DoIUse can be run with. It's ok if this fails, it provides some guidelines.
 ```
 npm run lint:doiuse
 ```
+
+## Bumping the version number
+
+* Follow [semantic versioning](http://semver.org)
+* Update package.json version property
+* Update README 'running the server' section

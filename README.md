@@ -32,7 +32,7 @@ cd annuity-calc-web
 npm install
 npm pack
 
-npm install -g annuity-calc-web-0.0.0.tgz
+npm install -g annuity-calc-web-0.1.0.tgz
 
 annuity-calc-www --help
 annuity-calc-www
