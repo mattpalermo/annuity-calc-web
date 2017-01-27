@@ -39,5 +39,8 @@ npm run lint:doiuse
 ## Bumping the version number
 
 * Follow [semantic versioning](http://semver.org)
-* Update package.json version property
-* Update README 'running the server' section
+* Update [package.json](../package.json) version property
+* Create tag with the format "v1.2.3" with a message with the format "version
+  1.2.3". (This can be done in the GitHub web interface)
+* Write some release notes in the GitHub releases section
+* Upload the `annuity-calc-web-1.2.3.tgz` package to GitHub releases.

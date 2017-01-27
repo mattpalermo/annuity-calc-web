@@ -26,14 +26,16 @@ If JavaScript is disabled or not working correctly, you will find the following:
 You will need to have [Node.js](https://nodejs.org/en/) installed to run the
 application. You will also need a modern web browser.
 
+[Download](https://github.com/mattpalermo/annuity-calc-web/releases) the
+application package (`annuity-calc-web-[version].tgz`). Install the package
+using
+
 ```
-git clone https://github.com/mattpalermo/annuity-calc-web.git
-cd annuity-calc-web
-npm install
-npm pack
+npm install -g annuity-calc-web-[version].tgz
+```
 
-npm install -g annuity-calc-web-0.1.0.tgz
-
+Run the server using
+```
 annuity-calc-www --help
 annuity-calc-www
 ```
