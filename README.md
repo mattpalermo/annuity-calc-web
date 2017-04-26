@@ -11,7 +11,6 @@ Feedback, support, questions and problem reports are welcome in the
 
 ## Using the application
 
-* Goto https://thescripticist.com/annuity-calc.
 * Enter calculation inputs in the text fields provided.
 * The calculated present value will be shown in the "Present Value" output.
 * Various attributes of the annuity are plotted again time in the graph.
